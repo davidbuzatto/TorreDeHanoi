@@ -5,15 +5,16 @@ import br.com.davidbuzatto.jsge.math.Vector2;
 import java.awt.Color;
 
 /**
- *
+ * Representação de um disco do jogo Torres de Hanoi.
+ * 
  * @author Prof. Dr. David Buzatto
  */
 public class Disco {
     
+    private int id;
     private Vector2 pos;
     private Vector2 dim;
     private Color cor;
-    private int id;
 
     public Disco( int id, double x, double y, double largura, double altura, Color cor ) {
         this.id = id;
