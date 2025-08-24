@@ -1,5 +1,5 @@
-# Simulador/Jogo de Torres de Hanoi
+# Torre de Hanói
 
-Simulador do jogo Torres de Hanoi.
+Simulador do jogo Torre de Hanói.
 
 Objetivo: aplicação de recursão e pilhas.

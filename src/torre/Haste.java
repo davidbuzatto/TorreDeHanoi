@@ -1,4 +1,4 @@
-package torres;
+package torre;
 
 import aesd.ds.implementations.linear.ResizingArrayStack;
 import aesd.ds.interfaces.Stack;
@@ -7,7 +7,7 @@ import br.com.davidbuzatto.jsge.math.Vector2;
 import java.awt.Color;
 
 /**
- * Representação de uma haste do jogo Torres de Hanoi.
+ * Representação de uma haste do jogo Torre de Hanói.
  * 
  * @author Prof. Dr. David Buzatto
  */

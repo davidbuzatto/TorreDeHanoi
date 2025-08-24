@@ -1,4 +1,4 @@
-package torres;
+package torre;
 
 import aesd.ds.implementations.linear.ResizingArrayStack;
 import aesd.ds.interfaces.Stack;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Simulador de Torres de Hanoi.
+ * Simulador de Torre de Hanói.
  * 
  * Material complementar da disciplina de estruturas de dados para ensino de
  * recursão e aplicação de pilhas.
@@ -50,7 +50,7 @@ public class Main extends EngineFrame {
     private boolean executandoAnimacao;
     
     public Main() {
-        super( 800, 450, "Simulador de Torres de Hanoi", 60, true );
+        super( 800, 450, "Jogo Torre de Hanói", 60, true );
     }
     
     @Override
