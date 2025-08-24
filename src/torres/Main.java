@@ -288,6 +288,18 @@ public class Main extends EngineFrame {
         executandoAnimacao = true;
     }
     
+    /**
+     * Implementação do algoritmo recursivo para a solução do problema das
+     * Torres de Hanói.
+     * 
+     * Move n discos da haste de origem para a haste de destino, usando a haste
+     * auxiliar como apoio para a movimentação.
+     * 
+     * @param n A quantidade de discos que serão movidos.
+     * @param origem A haste de origem.
+     * @param destino A haste de destino.
+     * @param auxiliar A haste auxiliar.
+     */
     private void resolver( int n, Haste origem, Haste destino, Haste auxiliar ) {
         
         // base: mover apenas um disco
@@ -298,14 +310,14 @@ public class Main extends EngineFrame {
         }
         
         // recursão:
-        // passo 1: mover n-1 discos da origem para o auxiliar
+        // passo 1: mover n-1 discos da haste de origem para a haste auxiliar.
         resolver( n-1, origem, auxiliar, destino );
         
-        // passo 2: mover o maior disco da origem para o destino
+        // passo 2: mover o maior disco da haste de origem para a haste de destino.
         moverDisco( origem, destino, false );
         salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
         
-        // passo 3: mover n-1 discos do auxiliar para o destino
+        // passo 3: mover n-1 discos da haste auxiliar para a haste de destino.
         resolver( n-1, auxiliar, destino, origem );
         
     }

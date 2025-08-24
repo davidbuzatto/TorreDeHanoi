@@ -252,11 +252,10 @@ public class MainPasso3 extends EngineFrame {
      * Implementação do algoritmo recursivo para a solução do problema das
      * Torres de Hanói.
      * 
-     * Move o maior disco (n) da haste de origem para a haste de destino,
-     * usando a haste auxiliar como apoio para a movimentação.
+     * Move n discos da haste de origem para a haste de destino, usando a haste
+     * auxiliar como apoio para a movimentação.
      * 
-     * @param n Enésimo disco que se quer mover da haste de origem para a haste
-     * de destino.
+     * @param n A quantidade de discos que serão movidos.
      * @param origem A haste de origem.
      * @param destino A haste de destino.
      * @param auxiliar A haste auxiliar.
@@ -267,9 +266,9 @@ public class MainPasso3 extends EngineFrame {
         
         /**
          * recursão:
-         *   - passo 1: mover n-1 discos da origem para o auxiliar;
-         *   - passo 2: mover o maior disco da origem para o destino;
-         *   - passo 3: mover n-1 discos do auxiliar para o destino.
+         *   - passo 1: mover n-1 discos da haste de origem para a haste auxiliar;
+         *   - passo 2: mover o maior disco da haste de origem para a haste de destino;
+         *   - passo 3: mover n-1 discos da haste auxiliar para a haste de destino.
          */
         
     }
