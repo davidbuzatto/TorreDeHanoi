@@ -1,11 +1,11 @@
-package torre;
+package torres;
 
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.math.Vector2;
 import java.awt.Color;
 
 /**
- * Representação de um disco do jogo Torre de Hanói.
+ * Representação de um disco do jogo Torres de Hanói.
  * 
  * @author Prof. Dr. David Buzatto
  */

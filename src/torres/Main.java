@@ -1,4 +1,4 @@
-package torre;
+package torres;
 
 import aesd.ds.implementations.linear.ResizingArrayStack;
 import aesd.ds.interfaces.Stack;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Simulador de Torre de Hanói.
+ * Simulador do Jogo Torres de Hanói.
  * 
  * Material complementar da disciplina de estruturas de dados para ensino de
  * recursão e aplicação de pilhas.
@@ -45,10 +45,8 @@ public class Main extends EngineFrame {
     
     private GuiButton btn12;
     private GuiButton btn13;
-    
     private GuiButton btn21;
     private GuiButton btn23;
-    
     private GuiButton btn31;
     private GuiButton btn32;
     
@@ -60,7 +58,7 @@ public class Main extends EngineFrame {
     private boolean executandoAnimacao;
     
     public Main() {
-        super( 800, 450, "Jogo Torre de Hanói", 60, true );
+        super( 800, 450, "Jogo Torres de Hanói", 60, true );
     }
     
     @Override
@@ -185,7 +183,7 @@ public class Main extends EngineFrame {
             h3.atualizar();
         } else {
             PassoAnimacao p = passosAnimacao.get( passoAtual );
-            p.update( delta );
+            p.atualizar( delta );
             if ( p.finalizada ) {
                 passoAtual++;
                 if ( passoAtual == passosAnimacao.size() ) {
@@ -297,7 +295,6 @@ public class Main extends EngineFrame {
             moverDisco( origem, destino, false );
             salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
             return;
-            
         }
         
         // recursão:
@@ -379,7 +376,7 @@ public class Main extends EngineFrame {
             this.tempo = tempo;
         }
         
-        void update( double delta ) {
+        void atualizar( double delta ) {
             
             if ( !finalizada ) {
                 
