@@ -6,6 +6,8 @@ import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.core.utils.ColorUtils;
 import br.com.davidbuzatto.jsge.imgui.GuiButton;
 import br.com.davidbuzatto.jsge.imgui.GuiComponent;
+import br.com.davidbuzatto.jsge.imgui.GuiLabel;
+import br.com.davidbuzatto.jsge.imgui.GuiTextField;
 import br.com.davidbuzatto.jsge.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.List;
  */
 public class Main extends EngineFrame {
     
+    private static final int QUANTIDADE_DISCOS = 9;
+    private static final double TEMPO_PASSO_ANIMACAO = 0.1;
+    
     private Haste h1;
     private Haste h2;
     private Haste h3;
@@ -32,6 +37,11 @@ public class Main extends EngineFrame {
     private GuiButton btnRefazer;
     private GuiButton btnReiniciar;
     private GuiButton btnResolver;
+    
+    private GuiLabel lblQuantidade;
+    private GuiLabel lblTempo;
+    private GuiTextField txtQuantidade;
+    private GuiTextField txtTempo;
     
     private GuiButton btn12;
     private GuiButton btn13;
@@ -72,16 +82,18 @@ public class Main extends EngineFrame {
         acoesRefazer = new ResizingArrayStack<>();
         
         passosAnimacao = new ArrayList<>();
-        tempoPassoAnimacao = 0.1;
-        
-        quantidadeDiscos = 9;
-        preparar( quantidadeDiscos );
         
         componentes = new ArrayList<>();
         btnDesfazer = new GuiButton( h2.getPos().x - 175, 20, 80, 20, "desfazer" );
         btnRefazer = new GuiButton( h2.getPos().x - 85, 20, 80, 20, "refazer" );
         btnReiniciar = new GuiButton( h2.getPos().x + 5, 20, 80, 20, "reiniciar" );
         btnResolver = new GuiButton( h2.getPos().x + 95, 20, 80, 20, "resolver" );
+        
+        lblQuantidade = new GuiLabel( btnReiniciar.getBounds().x + 2, btnReiniciar.getBounds().y + 25, 45, 20, "Quant:" );
+        txtQuantidade = new GuiTextField( lblQuantidade.getBounds().x + lblQuantidade.getBounds().width, btnReiniciar.getBounds().y + 25, 30, 20, String.valueOf( QUANTIDADE_DISCOS ) );
+        
+        lblTempo = new GuiLabel( btnResolver.getBounds().x + 2, btnResolver.getBounds().y + 25, 35, 20, "Temp:" );
+        txtTempo = new GuiTextField( lblTempo.getBounds().x + lblTempo.getBounds().width, btnResolver.getBounds().y + 25, 40, 20, String.valueOf( TEMPO_PASSO_ANIMACAO ) );
     
         btn12 = new GuiButton( h1.getPos().x - 25, 90, 50, 20, "-> 2" );
         btn13 = new GuiButton( h1.getPos().x - 25, 120, 50, 20, "-> 3" );
@@ -94,6 +106,10 @@ public class Main extends EngineFrame {
         componentes.add( btnRefazer );
         componentes.add( btnReiniciar );
         componentes.add( btnResolver );
+        componentes.add( lblQuantidade );
+        componentes.add( txtQuantidade );
+        componentes.add( lblTempo );
+        componentes.add( txtTempo );
         
         componentes.add( btn12 );
         componentes.add( btn13 );
@@ -101,6 +117,8 @@ public class Main extends EngineFrame {
         componentes.add( btn23 );
         componentes.add( btn31 );
         componentes.add( btn32 );
+        
+        preparar();
         
     }
     
@@ -120,7 +138,7 @@ public class Main extends EngineFrame {
         }
         
         if ( btnReiniciar.isMousePressed() ) {
-            preparar( quantidadeDiscos );
+            preparar();
             alterarEstadoGUI( true );
         }
         
@@ -185,6 +203,7 @@ public class Main extends EngineFrame {
 
         for ( GuiComponent c : componentes ) {
             c.draw();
+            //drawRectangle( c.getBounds(), BLUE );
         }
         
         h1.desenhar( this );
@@ -195,7 +214,27 @@ public class Main extends EngineFrame {
         
     }
     
-    private void preparar( int quantidade ) {
+    private void preparar() {
+        
+        try {
+            quantidadeDiscos = Integer.parseInt( txtQuantidade.getValue() );
+            if ( quantidadeDiscos <= 0 ) {
+                throw new NumberFormatException( "negativo" );
+            }
+        } catch ( NumberFormatException exc ) {
+            txtQuantidade.setValue( String.valueOf( QUANTIDADE_DISCOS ) );
+            quantidadeDiscos = QUANTIDADE_DISCOS;
+        }
+        
+        try {
+            tempoPassoAnimacao = Double.parseDouble( txtTempo.getValue() );
+            if ( tempoPassoAnimacao < 0.016 ) {
+                throw new NumberFormatException( "menor que tempo do quadro a 60 FPS" );
+            }
+        } catch ( NumberFormatException exc ) {
+            txtTempo.setValue( String.valueOf( TEMPO_PASSO_ANIMACAO ) );
+            tempoPassoAnimacao = TEMPO_PASSO_ANIMACAO;
+        }
         
         executandoAnimacao = false;
         
@@ -210,10 +249,10 @@ public class Main extends EngineFrame {
         passoAtual = 0;
         
         int ini = 2;
-        int fim = quantidade + ini - 1;
+        int fim = quantidadeDiscos + ini - 1;
         
         for ( int i = fim; i >= ini; i-- ) {
-            double porc = ( (double) ( fim - i ) / quantidade );            
+            double porc = ( (double) ( fim - i ) / quantidadeDiscos );            
             h2.empilhar( 
                 new Disco( 
                     i - ini + 1,
@@ -246,7 +285,7 @@ public class Main extends EngineFrame {
     }
     
     private void resolver() {
-        preparar( quantidadeDiscos );
+        preparar();
         resolver( h2.getTamanho(), h2, h3, h1 );
         executandoAnimacao = true;
     }
