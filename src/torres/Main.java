@@ -251,7 +251,7 @@ public class Main extends EngineFrame {
         
         for ( int i = fim; i >= ini; i-- ) {
             double porc = ( (double) ( fim - i ) / quantidadeDiscos );            
-            h2.empilhar( 
+            h1.empilhar( 
                 new Disco( 
                     i - ini + 1,
                     0, 0, i * 20, 20, 
@@ -284,7 +284,7 @@ public class Main extends EngineFrame {
     
     private void resolver() {
         preparar();
-        resolver( h2.getTamanho(), h2, h3, h1 );
+        resolver( h1.getTamanho(), h1, h3, h2 );
         executandoAnimacao = true;
     }
     
