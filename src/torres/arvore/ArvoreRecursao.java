@@ -15,7 +15,7 @@ public class ArvoreRecursao {
     private No noInterceptado;
     
     public ArvoreRecursao( int n, Haste origem, Haste destino, Haste auxiliar ) {
-        raiz = new No( n, origem, destino, auxiliar );
+        raiz = new No( n, origem, destino, auxiliar, Tipo.RESOLUCAO );
     }
     
     public No getRaiz() {
@@ -52,7 +52,7 @@ public class ArvoreRecursao {
         desenharArestas( e, raiz );
         desenhar( e, raiz );
         if ( noInterceptado != null && noInterceptado.getTipo() == Tipo.MOVIMENTO )  {
-            //e.fillCircle( noInterceptado.pos, 10, e.RED );
+            noInterceptado.desenharDetalhes( e );
         }
     }
     

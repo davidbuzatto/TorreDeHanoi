@@ -11,13 +11,13 @@ import java.awt.Color;
  */
 public class Disco {
     
-    private int id;
+    private int numero;
     private Vector2 pos;
     private Vector2 dim;
     private Color cor;
 
-    public Disco( int id, double x, double y, double largura, double altura, Color cor ) {
-        this.id = id;
+    public Disco( int numero, double x, double y, double largura, double altura, Color cor ) {
+        this.numero = numero;
         this.pos = new Vector2( x, y );
         this.dim = new Vector2( largura, altura );
         this.cor = cor;
@@ -25,7 +25,7 @@ public class Disco {
 
     public void draw( EngineFrame e ) {
         e.fillRectangle( pos.x - dim.x / 2, pos.y - dim.y, dim.x, dim.y, cor );
-        e.drawText( String.valueOf( id ), pos.x - 5, pos.y - 15, 20, e.BLACK );
+        e.drawText( String.valueOf( numero ), pos.x - 5, pos.y - 15, 20, e.BLACK );
     }
     
     public Vector2 getPos() {
@@ -50,6 +50,10 @@ public class Disco {
 
     public void setCor( Color cor ) {
         this.cor = cor;
+    }
+
+    public int getNumero() {
+        return numero;
     }
     
 }
