@@ -193,7 +193,7 @@ public class Main extends EngineFrame {
             h3.atualizar();
         } else {
             PassoAnimacao p = passosAnimacao.get( passoAtual );
-            p.no.cor = p.disco.getCor();
+            p.no.setCor( p.disco.getCor() );
             p.atualizar( delta );
             if ( p.finalizada ) {
                 passoAtual++;
@@ -321,25 +321,25 @@ public class Main extends EngineFrame {
         
         // base: mover apenas um disco
         if ( n == 1 ) {
-            no.noBase = new No( origem, destino );
+            no.setNoBase( new No( origem, destino ) );
             moverDisco( origem, destino, false );
-            salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.noBase );
+            salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.getNoBase() );
             return;
         }
         
         // recursão:
         // passo 1: mover n-1 discos da haste de origem para a haste auxiliar.
-        no.noPasso1 = new No( n-1, origem, auxiliar, destino );
-        resolver( n-1, origem, auxiliar, destino, no.noPasso1 );
+        no.setNoPasso1( new No( n-1, origem, auxiliar, destino ) );
+        resolver( n-1, origem, auxiliar, destino, no.getNoPasso1() );
         
         // passo 2: mover o maior disco da haste de origem para a haste de destino.
-        no.noPasso2 = new No( origem, destino );
+        no.setNoPasso2( new No( origem, destino ) );
         moverDisco( origem, destino, false );
-        salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.noPasso2 );
+        salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.getNoPasso2() );
         
         // passo 3: mover n-1 discos da haste auxiliar para a haste de destino.
-        no.noPasso3 = new No( n-1, auxiliar, destino, origem );
-        resolver( n-1, auxiliar, destino, origem, no.noPasso3 );
+        no.setNoPasso3( new No( n-1, auxiliar, destino, origem ) );
+        resolver( n-1, auxiliar, destino, origem, no.getNoPasso3() );
         
     }
     

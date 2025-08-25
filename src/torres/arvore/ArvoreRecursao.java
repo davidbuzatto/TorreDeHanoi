@@ -31,19 +31,19 @@ public class ArvoreRecursao {
             if ( no.intercepta( x, y ) ) {
                 return no;
             }
-            No n1 = obtemNoInterceptado( x, y, no.noBase );
+            No n1 = obtemNoInterceptado( x, y, no.getNoBase() );
             if ( n1 != null ) {
                 return n1;
             }
-            No n2 = obtemNoInterceptado( x, y, no.noPasso1 );
+            No n2 = obtemNoInterceptado( x, y, no.getNoPasso1() );
             if ( n2 != null ) {
                 return n2;
             }
-            No n3 = obtemNoInterceptado( x, y, no.noPasso2 );
+            No n3 = obtemNoInterceptado( x, y, no.getNoPasso2() );
             if ( n3 != null ) {
                 return n3;
             }
-            return obtemNoInterceptado( x, y, no.noPasso3 );
+            return obtemNoInterceptado( x, y, no.getNoPasso3() );
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class ArvoreRecursao {
     public void desenhar( EngineFrame e ) {
         desenharArestas( e, raiz );
         desenhar( e, raiz );
-        if ( noInterceptado != null && noInterceptado.tipo == Tipo.MOVIMENTO )  {
+        if ( noInterceptado != null && noInterceptado.getTipo() == Tipo.MOVIMENTO )  {
             //e.fillCircle( noInterceptado.pos, 10, e.RED );
         }
     }
@@ -59,31 +59,31 @@ public class ArvoreRecursao {
     private void desenhar( EngineFrame e, No no ) {
         if ( no != null ) {
             no.desenhar( e );
-            desenhar( e, no.noBase );
-            desenhar( e, no.noPasso1 );
-            desenhar( e, no.noPasso2 );
-            desenhar( e, no.noPasso3 );
+            desenhar( e, no.getNoBase() );
+            desenhar( e, no.getNoPasso1() );
+            desenhar( e, no.getNoPasso2() );
+            desenhar( e, no.getNoPasso3() );
         }
     }
     
     private void desenharArestas( EngineFrame e, No no ) {
         if ( no != null ) {
-            if ( no.noBase != null ) {
-                e.drawLine( no.pos, no.noBase.pos, e.BLACK );
+            if ( no.getNoBase() != null ) {
+                e.drawLine( no.pos, no.getNoBase().pos, e.BLACK );
             }
-            if ( no.noPasso1 != null ) {
-                e.drawLine( no.pos, no.noPasso1.pos, e.BLACK );
+            if ( no.getNoPasso1() != null ) {
+                e.drawLine( no.pos, no.getNoPasso1().pos, e.BLACK );
             }
-            if ( no.noPasso2 != null ) {
-                e.drawLine( no.pos, no.noPasso2.pos, e.BLACK );
+            if ( no.getNoPasso2() != null ) {
+                e.drawLine( no.pos, no.getNoPasso2().pos, e.BLACK );
             }
-            if ( no.noPasso3 != null ) {
-                e.drawLine( no.pos, no.noPasso3.pos, e.BLACK );
+            if ( no.getNoPasso3() != null ) {
+                e.drawLine( no.pos, no.getNoPasso3().pos, e.BLACK );
             }
-            desenharArestas( e, no.noBase );
-            desenharArestas( e, no.noPasso1 );
-            desenharArestas( e, no.noPasso2 );
-            desenharArestas( e, no.noPasso3 );
+            desenharArestas( e, no.getNoBase() );
+            desenharArestas( e, no.getNoPasso1() );
+            desenharArestas( e, no.getNoPasso2() );
+            desenharArestas( e, no.getNoPasso3() );
         }
     }
     
@@ -99,10 +99,10 @@ public class ArvoreRecursao {
             no.pos.x = no.getRanque() * no.dim.x;
             no.pos.y = nivel * ( no.dim.y + 40 );
 
-            organizarEspacialmente( no.noBase, nivel+1 );
-            organizarEspacialmente( no.noPasso1, nivel+1 );
-            organizarEspacialmente( no.noPasso2, nivel+1 );
-            organizarEspacialmente( no.noPasso3, nivel+1 );
+            organizarEspacialmente( no.getNoBase(), nivel+1 );
+            organizarEspacialmente( no.getNoPasso1(), nivel+1 );
+            organizarEspacialmente( no.getNoPasso2(), nivel+1 );
+            organizarEspacialmente( no.getNoPasso3(), nivel+1 );
             
         }
         
@@ -117,16 +117,16 @@ public class ArvoreRecursao {
     
     private void calcularRanque( No no ) {
         if ( no != null ) {
-            if ( no.tipo == Tipo.RESOLUCAO ) {
-                calcularRanque( no.noPasso1 );
-                no.ranque = ranqueCalculo++;
-                if ( no.noBase != null ) {
-                    no.noBase.ranque = ranqueCalculo - 1;
+            if ( no.getTipo() == Tipo.RESOLUCAO ) {
+                calcularRanque( no.getNoPasso1() );
+                no.setRanque( ranqueCalculo++ );
+                if ( no.getNoBase() != null ) {
+                    no.getNoBase().setRanque( ranqueCalculo - 1 );
                 }
-                calcularRanque( no.noPasso2 );
-                calcularRanque( no.noPasso3 );
+                calcularRanque( no.getNoPasso2() );
+                calcularRanque( no.getNoPasso3() );
             } else {
-                no.ranque = ranqueCalculo - 1;
+                no.setRanque( ranqueCalculo - 1 );
             }
         }
     }
@@ -143,10 +143,10 @@ public class ArvoreRecursao {
                 System.out.println( no );
             }
 
-            mostrar( no.noBase, true);
-            mostrar( no.noPasso1, false );
-            mostrar( no.noPasso2, true );
-            mostrar( no.noPasso3, false );
+            mostrar( no.getNoBase(), true);
+            mostrar( no.getNoPasso1(), false );
+            mostrar( no.getNoPasso2(), true );
+            mostrar( no.getNoPasso3(), false );
             
         }
         
