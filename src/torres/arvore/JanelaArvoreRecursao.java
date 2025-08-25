@@ -18,8 +18,8 @@ public class JanelaArvoreRecursao extends EngineFrame {
     private int yDiff;
     
     public JanelaArvoreRecursao() {
-        super( 1000, 800, "Visualização da Árvore de Recursão", 60, true, true, false, false, false, false );
-        setDefaultCloseOperation( DO_NOTHING_ON_CLOSE );
+        super( 1000, 800, "Visualização da Árvore de Recursão", 60, true, true, false, true, false, false );
+        setExtendedState( MAXIMIZED_BOTH );
     }
     
     @Override

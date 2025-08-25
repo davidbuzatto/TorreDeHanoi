@@ -25,7 +25,7 @@ import torres.arvore.No;
  */
 public class Main extends EngineFrame {
     
-    private static final int QUANTIDADE_DISCOS = 3;
+    private static final int QUANTIDADE_DISCOS = 9;
     private static final double TEMPO_PASSO_ANIMACAO = 0.1;
     
     private Haste h1;
@@ -193,6 +193,7 @@ public class Main extends EngineFrame {
             h3.atualizar();
         } else {
             PassoAnimacao p = passosAnimacao.get( passoAtual );
+            p.no.cor = p.disco.getCor();
             p.atualizar( delta );
             if ( p.finalizada ) {
                 passoAtual++;
@@ -322,7 +323,7 @@ public class Main extends EngineFrame {
         if ( n == 1 ) {
             no.noBase = new No( origem, destino );
             moverDisco( origem, destino, false );
-            salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
+            salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.noBase );
             return;
         }
         
@@ -334,7 +335,7 @@ public class Main extends EngineFrame {
         // passo 2: mover o maior disco da haste de origem para a haste de destino.
         no.noPasso2 = new No( origem, destino );
         moverDisco( origem, destino, false );
-        salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
+        salvarPassoAnimacao( origem, destino, tempoPassoAnimacao, no.noPasso2 );
         
         // passo 3: mover n-1 discos da haste auxiliar para a haste de destino.
         no.noPasso3 = new No( n-1, auxiliar, destino, origem );
@@ -358,7 +359,7 @@ public class Main extends EngineFrame {
         }
     }
     
-    private void salvarPassoAnimacao( Haste origem, Haste destino, double tempo ) {
+    private void salvarPassoAnimacao( Haste origem, Haste destino, double tempo, No no ) {
         
         double x1 = origem.getPos().x;
         double y1 = origem.getPos().y - origem.getTamanho() * destino.verTopo().getDim().y;
@@ -366,9 +367,9 @@ public class Main extends EngineFrame {
         double y2 = destino.getPos().y - ( destino.getTamanho() - 1 ) * destino.verTopo().getDim().y;
         double yFinal = origem.getPos().y - origem.getDim().y - destino.verTopo().getDim().y;
         
-        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x1, y1, x1, yFinal, tempo ) );
-        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x1, yFinal, x2, yFinal, tempo  ) );
-        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x2, yFinal, x2, y2, tempo  ) );
+        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x1, y1, x1, yFinal, tempo, no ) );
+        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x1, yFinal, x2, yFinal, tempo, no ) );
+        passosAnimacao.add( new PassoAnimacao( destino.verTopo(), x2, yFinal, x2, y2, tempo, no ) );
         
     }
     
@@ -399,13 +400,16 @@ public class Main extends EngineFrame {
         double tempoAtual;
         boolean finalizada;
         
-        public PassoAnimacao( Disco disco, double x1, double y1, double x2, double y2, double tempo ) {
+        No no;
+        
+        public PassoAnimacao( Disco disco, double x1, double y1, double x2, double y2, double tempo, No no ) {
             this.disco = disco;
             this.x = x1;
             this.y = y1;
             this.largura = x2 - x1;
             this.altura = y2 - y1;
             this.tempo = tempo;
+            this.no = no;
         }
         
         void atualizar( double delta ) {

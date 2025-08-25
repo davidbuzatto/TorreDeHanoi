@@ -4,6 +4,7 @@ import br.com.davidbuzatto.jsge.collision.CollisionUtils;
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.geom.Rectangle;
 import br.com.davidbuzatto.jsge.math.Vector2;
+import java.awt.Color;
 import torres.Haste;
 
 /**
@@ -38,10 +39,13 @@ public class No {
     private String texto;
     private int larguraTexto;
     
+    public Color cor;
+    
     private No() {
         this.id = contId++;
         this.pos = new Vector2();
         this.dim = new Vector2( 110, 20 );
+        this.cor = EngineFrame.BLACK;
     }
     
     public No( Haste origem, Haste destino ) {
@@ -65,7 +69,7 @@ public class No {
             texto = toString();
             larguraTexto = e.measureText( texto, 20 );
         }
-        e.fillRoundRectangle( pos.x - larguraTexto / 2 - 5, pos.y - 5, larguraTexto + 5, dim.y + 5, 10, e.BLACK );
+        e.fillRoundRectangle( pos.x - larguraTexto / 2 - 5, pos.y - 5, larguraTexto + 5, dim.y + 5, 10, cor );
         e.drawText( toString(), pos.x - larguraTexto / 2, pos.y, 20, e.WHITE );
     }
     

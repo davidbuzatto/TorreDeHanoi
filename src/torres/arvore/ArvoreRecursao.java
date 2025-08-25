@@ -51,7 +51,7 @@ public class ArvoreRecursao {
     public void desenhar( EngineFrame e ) {
         desenharArestas( e, raiz );
         desenhar( e, raiz );
-        if ( noInterceptado != null )  {
+        if ( noInterceptado != null && noInterceptado.tipo == Tipo.MOVIMENTO )  {
             //e.fillCircle( noInterceptado.pos, 10, e.RED );
         }
     }
