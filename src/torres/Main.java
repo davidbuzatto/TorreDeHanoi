@@ -1,5 +1,7 @@
 package torres;
 
+import torres.arvore.JanelaArvoreRecursao;
+import torres.arvore.ArvoreRecursao;
 import aesd.ds.implementations.linear.ResizingArrayStack;
 import aesd.ds.interfaces.Stack;
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
@@ -11,6 +13,7 @@ import br.com.davidbuzatto.jsge.imgui.GuiTextField;
 import br.com.davidbuzatto.jsge.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
+import torres.arvore.No;
 
 /**
  * Simulador do Jogo Torres de Hanói.
@@ -22,7 +25,7 @@ import java.util.List;
  */
 public class Main extends EngineFrame {
     
-    private static final int QUANTIDADE_DISCOS = 9;
+    private static final int QUANTIDADE_DISCOS = 3;
     private static final double TEMPO_PASSO_ANIMACAO = 0.1;
     
     private Haste h1;
@@ -57,8 +60,11 @@ public class Main extends EngineFrame {
     private int passoAtual;
     private boolean executandoAnimacao;
     
+    private ArvoreRecursao arvore;
+    private JanelaArvoreRecursao janelaArvore;
+    
     public Main() {
-        super( 800, 450, "Jogo Torres de Hanói", 60, true );
+        super( 800, 450, "Jogo Torres de Hanói", 60, true, false, false, false, true, false );
     }
     
     @Override
@@ -72,9 +78,9 @@ public class Main extends EngineFrame {
         
         int espacamento = 250;
         
-        h1 = new Haste( centro.x - espacamento, centro.y, dim.x, dim.y, BLACK );
-        h2 = new Haste( centro.x, centro.y, dim.x, dim.y, BLACK );
-        h3 = new Haste( centro.x + espacamento, centro.y, dim.x, dim.y, BLACK );
+        h1 = new Haste( "1", centro.x - espacamento, centro.y, dim.x, dim.y, BLACK );
+        h2 = new Haste( "2", centro.x, centro.y, dim.x, dim.y, BLACK );
+        h3 = new Haste( "3", centro.x + espacamento, centro.y, dim.x, dim.y, BLACK );
         
         acoesDesfazer = new ResizingArrayStack<>();
         acoesRefazer = new ResizingArrayStack<>();
@@ -143,6 +149,10 @@ public class Main extends EngineFrame {
         if ( btnResolver.isMousePressed() ) {
             resolver();
             alterarEstadoGUI( false );
+            if ( janelaArvore == null ) {
+                janelaArvore = new JanelaArvoreRecursao();
+            }
+            janelaArvore.setArvore( arvore );
         }
         
         if ( btn12.isMousePressed() ) {
@@ -283,9 +293,15 @@ public class Main extends EngineFrame {
     }
     
     private void resolver() {
+        
         preparar();
-        resolver( h1.getTamanho(), h1, h3, h2 );
+        arvore = new ArvoreRecursao( h1.getTamanho(), h1, h3, h2 );
+        
+        resolver( h1.getTamanho(), h1, h3, h2, arvore.getRaiz() );
         executandoAnimacao = true;
+        
+        arvore.organizarEspacialmente();
+        
     }
     
     /**
@@ -300,10 +316,11 @@ public class Main extends EngineFrame {
      * @param destino A haste de destino.
      * @param auxiliar A haste auxiliar.
      */
-    private void resolver( int n, Haste origem, Haste destino, Haste auxiliar ) {
+    private void resolver( int n, Haste origem, Haste destino, Haste auxiliar, No no ) {
         
         // base: mover apenas um disco
         if ( n == 1 ) {
+            no.noBase = new No( origem, destino );
             moverDisco( origem, destino, false );
             salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
             return;
@@ -311,14 +328,17 @@ public class Main extends EngineFrame {
         
         // recursão:
         // passo 1: mover n-1 discos da haste de origem para a haste auxiliar.
-        resolver( n-1, origem, auxiliar, destino );
+        no.noPasso1 = new No( n-1, origem, auxiliar, destino );
+        resolver( n-1, origem, auxiliar, destino, no.noPasso1 );
         
         // passo 2: mover o maior disco da haste de origem para a haste de destino.
+        no.noPasso2 = new No( origem, destino );
         moverDisco( origem, destino, false );
         salvarPassoAnimacao( origem, destino, tempoPassoAnimacao );
         
         // passo 3: mover n-1 discos da haste auxiliar para a haste de destino.
-        resolver( n-1, auxiliar, destino, origem );
+        no.noPasso3 = new No( n-1, auxiliar, destino, origem );
+        resolver( n-1, auxiliar, destino, origem, no.noPasso3 );
         
     }
     

@@ -13,16 +13,22 @@ import java.awt.Color;
  */
 public class Haste {
     
+    private String nome;
     private Vector2 pos;
     private Vector2 dim;
     private Color cor;
     private Stack<Disco> pilha;
 
-    public Haste( double x, double y, double largura, double altura, Color cor ) {
+    public Haste( String nome, double x, double y, double largura, double altura, Color cor ) {
+        this.nome = nome;
         this.pos = new Vector2( x, y );
         this.dim = new Vector2( largura, altura );
         this.cor = cor;
         this.pilha = new ResizingArrayStack<>();
+    }
+    
+    public Haste( double x, double y, double largura, double altura, Color cor ) {
+        this( "", x, y, largura, altura, cor );
     }
 
     // atualiza a posição dos discos de acordo com suas posições na pilha
@@ -68,6 +74,14 @@ public class Haste {
 
     public void setCor( Color cor ) {
         this.cor = cor;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome( String nome ) {
+        this.nome = nome;
     }
 
     public void empilhar( Disco d ) {
