@@ -109,7 +109,7 @@ public class MainPasso1 extends EngineFrame {
      * 
      * A haste de origem não pode estar vazia e o disco que vai ser movido
      * não pode ter diâmetro (largura do retângulo) maior que o que está no
-     * topo da haste de destino. Se a hasta de destino não possuir discos,
+     * topo da haste de destino. Se a haste de destino não possuir discos,
      * qualquer um pode ser movido para a mesma.
      */
     private void moverDisco( Haste origem, Haste destino ) {
