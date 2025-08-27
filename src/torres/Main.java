@@ -7,10 +7,13 @@ import aesd.ds.interfaces.Stack;
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.core.utils.ColorUtils;
 import br.com.davidbuzatto.jsge.imgui.GuiButton;
+import br.com.davidbuzatto.jsge.imgui.GuiButtonGroup;
 import br.com.davidbuzatto.jsge.imgui.GuiComponent;
 import br.com.davidbuzatto.jsge.imgui.GuiLabel;
+import br.com.davidbuzatto.jsge.imgui.GuiRadioButton;
 import br.com.davidbuzatto.jsge.imgui.GuiTextField;
 import br.com.davidbuzatto.jsge.math.Vector2;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import torres.arvore.No;
@@ -28,6 +31,15 @@ public class Main extends EngineFrame {
     
     private static final int QUANTIDADE_DISCOS = 9;
     private static final double TEMPO_PASSO_ANIMACAO = 0.1;
+    
+    private static final Color[] coresBrinquedo = {
+        LIME, 
+        RED,
+        ORANGE,
+        YELLOW,
+        new Color( 156, 227, 74 ),
+        new Color( 54, 70, 137 )
+    };
     
     private Haste h1;
     private Haste h2;
@@ -53,6 +65,10 @@ public class Main extends EngineFrame {
     private GuiButton btn23;
     private GuiButton btn31;
     private GuiButton btn32;
+    
+    private GuiRadioButton radioHSL;
+    private GuiRadioButton radioBrinquedo;
+    private GuiButtonGroup grpRadio;
     
     private List<GuiComponent> componentes;
     
@@ -107,6 +123,13 @@ public class Main extends EngineFrame {
         btn31 = new GuiButton( h3.getPos().x - 25, 90, 50, 20, "1 <-" );
         btn32 = new GuiButton( h3.getPos().x - 25, 120, 50, 20, "2 <-" );
         
+        grpRadio = new GuiButtonGroup();
+        radioHSL = new GuiRadioButton( btnResolver.getBounds().x + btnResolver.getBounds().width + 10, btnResolver.getBounds().y, 50, 20, "HSL" );
+        radioBrinquedo = new GuiRadioButton( radioHSL.getBounds().x, radioHSL.getBounds().y + 25, 90, 20, "Brinquedo" );
+        radioHSL.setButtonGroup( grpRadio );
+        radioBrinquedo.setButtonGroup( grpRadio );
+        radioHSL.setSelected( true );
+        
         componentes.add( btnDesfazer );
         componentes.add( btnRefazer );
         componentes.add( btnReiniciar );
@@ -122,6 +145,9 @@ public class Main extends EngineFrame {
         componentes.add( btn23 );
         componentes.add( btn31 );
         componentes.add( btn32 );
+        
+        componentes.add( radioHSL );
+        componentes.add( radioBrinquedo );
         
         preparar();
         
@@ -262,14 +288,26 @@ public class Main extends EngineFrame {
         int fim = quantidadeDiscos + ini - 1;
         
         for ( int i = fim; i >= ini; i-- ) {
-            double porc = ( (double) ( fim - i ) / quantidadeDiscos );            
+            
+            double porc = ( (double) ( fim - i ) / quantidadeDiscos );
+            
+            Color cor = ColorUtils.colorFromHSV( porc * 360, 1, 1 );;
+            
+            if ( radioBrinquedo.isSelected() ) {
+                int p = i - ini;
+                if ( p < coresBrinquedo.length ) {
+                    cor = coresBrinquedo[p];
+                }
+            }
+            
             h1.empilhar( 
                 new Disco( 
                     i - ini + 1,
                     0, 0, i * 20, 20, 
-                    ColorUtils.colorFromHSV( porc * 360, 1, 1 )
+                    cor
                 )
             );
+            
         }
         
         h1.atualizar();
